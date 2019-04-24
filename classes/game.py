@@ -12,7 +12,8 @@ class bcolors:
 
 
 class Person:
-    def __init__(self, hp, mp, atk, df, magic, inventory):
+    def __init__(self, name, hp, mp, atk, df, magic, inventory):
+        self.name = name
         self.maxhp = hp
         self.hp = hp
         self.maxmp = mp
@@ -23,6 +24,13 @@ class Person:
         self.magic = magic
         self.inventory = inventory
         self.actions = ["Attack", "Magic", "Inventory"]
+
+    def get_stats(self):
+        print(bcolors.BOLD + self.name + "       " +
+              str(self.hp) + "/" + str(self.maxhp) + " [" +
+              bcolors.OKGREEN + "█████████████████████████" + bcolors.ENDC + "] " +
+              str(self.mp) + "/" + str(self.maxmp) + " [" +
+              bcolors.OKBLUE + "██████████" + bcolors.ENDC + "]")
 
     def generate_damage(self):
         return random.randrange(self.atkl, self.atkh)
@@ -54,6 +62,7 @@ class Person:
 
     def choose_action(self):
         i = 1
+        print("\n" + bcolors.BOLD + self.name + bcolors.ENDC)
         print("\n" + bcolors.OKBLUE + bcolors.BOLD + "ACTIONS:" + bcolors.ENDC)
         for action in self.actions:
             print("    " + str(i) + ".", action)
