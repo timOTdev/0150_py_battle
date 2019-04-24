@@ -27,10 +27,10 @@ player_inventory = [{"name": potion, "quantity": 15}, {"name": hipotion, "quanti
                     {"name": hielixir, "quantity": 2}, {"name": grenade, "quantity": 5}]
 
 # Create Characters
-player1 = Person("Ironman :", 7842, 65, 60, 34, player_magic, player_inventory)
-player2 = Person("The Hulk:", 9034, 65, 60, 34, player_magic, player_inventory)
-player3 = Person("Hawkeye :", 4039, 65, 60, 34, player_magic, player_inventory)
-enemy = Person("Thanos  :", 10988, 65, 45, 25, [], [])
+player1 = Person("Ironman :", 784, 65, 60, 34, player_magic, player_inventory)
+player2 = Person("The Hulk:", 903, 65, 60, 34, player_magic, player_inventory)
+player3 = Person("Hawkeye :", 403, 65, 60, 34, player_magic, player_inventory)
+enemy = Person("Thanos  :", 1098, 300, 45, 25, [], [])
 
 players = [player1, player2, player3]
 running = True
@@ -40,8 +40,8 @@ while running:
 
     # PLAYER STATS
     print("\n\n")
-    print("NAME                      HP                                MP")
-    print("                          _________________________         __________")
+    print("NAME                     HP                                MP")
+    print("                         _________________________         __________")
     for player in players:
         player.get_stats()
     print("\n")

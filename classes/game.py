@@ -26,9 +26,19 @@ class Person:
         self.actions = ["Attack", "Magic", "Inventory"]
 
     def get_stats(self):
+        hp_bar = ""
+        hp_ticks = (self.hp / self.maxhp) * 100 / 4
+
+        while hp_ticks > 0:
+            hp_bar += "█"
+            hp_ticks -= 1
+
+        while len(hp_bar) < 25:
+            hp_bar += " "
+
         print(bcolors.BOLD + self.name + "       " +
               str(self.hp) + "/" + str(self.maxhp) + " [" +
-              bcolors.OKGREEN + "█████████████████████████" + bcolors.ENDC + "] " +
+              bcolors.OKGREEN + hp_bar + bcolors.ENDC + "] " +
               str(self.mp) + "/" + str(self.maxmp) + " [" +
               bcolors.OKBLUE + "██████████" + bcolors.ENDC + "]")
 
