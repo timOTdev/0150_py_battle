@@ -18,7 +18,7 @@ potion = Item("Potion", "potion", "Heals 50 HP", 50)
 hipotion = Item("HiPotion", "potion", "Heals 100 HP", 100)
 superpotion = Item("SuperPotion", "potion", "Heals 500 HP", 500)
 elixir = Item("Elixer", "elixir", "Fully restores HP/MP of one party member", 9999)
-hielixir = Item("HiElixir", "potion", "Fully restores party's HP/MP", 9999)
+hielixir = Item("HiElixir", "elixir", "Fully restores party's HP/MP", 9999)
 grenade = Item("Grenade", "attack", "Deals 500 damage", 500)
 
 player_magic = [fire, thunder, blizzard, meteor, cure, cura]
@@ -30,7 +30,7 @@ player_inventory = [{"name": potion, "quantity": 15}, {"name": hipotion, "quanti
 player1 = Person("Ironman :", 100, 100, 60, 34, player_magic, player_inventory)
 player2 = Person("The Hulk:", 100, 100, 60, 34, player_magic, player_inventory)
 player3 = Person("Hawkeye :", 100, 100, 60, 34, player_magic, player_inventory)
-enemy = Person("Thanos  :", 100, 300, 45, 25, [], [])
+enemy = Person("Thanos  :", 500, 300, 45, 25, [], [])
 
 players = [player1, player2, player3]
 running = True
@@ -99,8 +99,13 @@ while running:
                 player.heal(item.prop)
                 print(bcolors.OKGREEN + "\n" + item.name + " heals for", str(item.prop), "HP" + bcolors.ENDC)
             elif item.type == "elixir":
-                player.hp = player.maxhp
-                player.mp = player.maxmp
+                if item.name == "HiElixir":
+                    for i in players:
+                        i.hp = i.maxhp
+                        i.mp = i.maxmp
+                else:
+                    player.hp = player.maxhp
+                    player.mp = player.maxmp
                 print(bcolors.OKGREEN + "\n" + item.name + " fully restores HP/MP." + bcolors.ENDC)
             elif item.type == "attack":
                 enemy.take_damage(item.prop)
