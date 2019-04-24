@@ -1,6 +1,7 @@
 from classes.game import Person, bcolors
 from classes.magic import Spell
 from classes.inventory import Item
+import random
 
 # Create Black Magic
 fire = Spell("Fire", 10, 100, "black")
@@ -27,10 +28,10 @@ player_inventory = [{"name": potion, "quantity": 15}, {"name": hipotion, "quanti
                     {"name": hielixir, "quantity": 2}, {"name": grenade, "quantity": 5}]
 
 # Create Characters
-player1 = Person("Ironman :", 100, 100, 60, 34, player_magic, player_inventory)
-player2 = Person("The Hulk:", 100, 100, 60, 34, player_magic, player_inventory)
-player3 = Person("Hawkeye :", 100, 100, 60, 34, player_magic, player_inventory)
-enemy = Person("Thanos  :", 500, 300, 45, 25, [], [])
+player1 = Person("Ironman :", 600, 700, 60, 34, player_magic, player_inventory)
+player2 = Person("The Hulk:", 900, 200, 60, 34, player_magic, player_inventory)
+player3 = Person("Hawkeye :", 400, 1, 60, 34, player_magic, player_inventory)
+enemy = Person("Thanos  :", 10000, 800, 45, 25, [], [])
 
 players = [player1, player2, player3]
 running = True
@@ -114,8 +115,9 @@ while running:
     # ENEMY ACTION PHASE
     enemy_choice = 1
 
+    target = random.randrange(0, 3)
     enemy_dmg = enemy.generate_damage()
-    player.take_damage(enemy_dmg)
+    players[target].take_damage(enemy_dmg)
     print("Enemy attacks for", enemy_dmg, "points of damage.")
 
     print("-------------------------------------------------")
