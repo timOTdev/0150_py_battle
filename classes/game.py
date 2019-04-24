@@ -25,7 +25,7 @@ class Person:
         self.inventory = inventory
         self.actions = ["Attack", "Magic", "Inventory"]
 
-    def get_stats(self):
+    def get_player_stats(self):
         # HP SPACE ADJUST
         hp_string = str(self.hp) + "/" + str(self.maxhp)
         hp_adjusted = ""
@@ -77,11 +77,43 @@ class Person:
         while len(mp_bar) < 10:
             mp_bar += " "
 
+        print("                         _________________________           __________")
         print(bcolors.BOLD + self.name + "       " +
-              hp_adjusted + " [" +
-              bcolors.OKGREEN + hp_bar + bcolors.ENDC + "] " +
-              mp_adjusted + " [" +
-              bcolors.OKBLUE + mp_bar + bcolors.ENDC + "]")
+              hp_adjusted + " |" +
+              bcolors.OKGREEN + hp_bar + bcolors.ENDC + "| " +
+              mp_adjusted + " |" +
+              bcolors.OKBLUE + mp_bar + bcolors.ENDC + "|")
+
+    def get_enemy_stats(self):
+        # HP SPACE ADJUST
+        hp_string = str(self.hp) + "/" + str(self.maxhp)
+        hp_adjusted = ""
+
+        if len(hp_string) < 9:
+            hp_counter = 9 - len(hp_string)
+
+            while hp_counter > 0:
+                hp_adjusted += " "
+                hp_counter -= 1
+
+            hp_adjusted += hp_string
+        else:
+            hp_adjusted = hp_string
+
+        # HP BAR TICKS
+        hp_bar = ""
+        hp_ticks = (self.hp / self.maxhp) * 100 / 2
+
+        while hp_ticks > 0:
+            hp_bar += "█"
+            hp_ticks -= 1
+        while len(hp_bar) < 50:
+            hp_bar += " "
+
+        print("                         __________________________________________________")
+        print(bcolors.BOLD + self.name + "     " +
+              hp_adjusted + " |" +
+              bcolors.FAIL + hp_bar + bcolors.ENDC + "| ")
 
     def generate_damage(self):
         return random.randrange(self.atkl, self.atkh)

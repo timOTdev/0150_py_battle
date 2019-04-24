@@ -30,7 +30,7 @@ player_inventory = [{"name": potion, "quantity": 15}, {"name": hipotion, "quanti
 player1 = Person("Ironman :", 100, 100, 60, 34, player_magic, player_inventory)
 player2 = Person("The Hulk:", 100, 100, 60, 34, player_magic, player_inventory)
 player3 = Person("Hawkeye :", 100, 100, 60, 34, player_magic, player_inventory)
-enemy = Person("Thanos  :", 1098, 300, 45, 25, [], [])
+enemy = Person("Thanos  :", 100, 300, 45, 25, [], [])
 
 players = [player1, player2, player3]
 running = True
@@ -38,13 +38,13 @@ i = 0
 
 while running:
 
-    # PLAYER STATS
+    # PLAYER AND ENEMY STATS
     print("\n\n")
     print("NAME                     HP                                  MP")
-    print("                         _________________________           __________")
     for player in players:
-        player.get_stats()
+        player.get_player_stats()
     print("\n")
+    enemy.get_enemy_stats()
 
     # PLAYER ACTION PHASE
     for player in players:
@@ -114,10 +114,6 @@ while running:
     print("Enemy attacks for", enemy_dmg, "points of damage.")
 
     print("-------------------------------------------------")
-    print("Enemy HP:", bcolors.FAIL + str(enemy.get_hp()) + "/" + str(enemy.get_max_hp()) + bcolors.ENDC + "\n")
-
-    print("Your HP:", bcolors.OKGREEN + str(player.get_hp()) + "/" + str(player.get_max_hp()) + bcolors.ENDC)
-    print("Your MP:", bcolors.OKBLUE + str(player.get_mp()) + "/" + str(player.get_max_mp()) + bcolors.ENDC + "\n")
 
     if enemy.get_hp() == 0:
         print(bcolors.OKGREEN + "You win!" + bcolors.ENDC)
