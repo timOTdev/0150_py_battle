@@ -26,29 +26,61 @@ class Person:
         self.actions = ["Attack", "Magic", "Inventory"]
 
     def get_stats(self):
+        # HP SPACE ADJUST
+        hp_string = str(self.hp) + "/" + str(self.maxhp)
+        hp_adjusted = ""
+
+        if len(hp_string) < 7:
+            hp_counter = 7 - len(hp_string)
+
+            while hp_counter > 0:
+                hp_adjusted += " "
+                hp_counter -= 1
+
+            hp_adjusted += hp_string
+        else:
+            hp_adjusted = hp_string
+
+
+        # HP BAR TICKS
         hp_bar = ""
         hp_ticks = (self.hp / self.maxhp) * 100 / 4
-        mp_bar = ""
-        mp_ticks = (self.mp / self.maxmp) * 100 /10
 
         while hp_ticks > 0:
             hp_bar += "█"
             hp_ticks -= 1
-
         while len(hp_bar) < 25:
             hp_bar += " "
+
+        # MP SPACE ADJUST
+        mp_string = str(self.mp) + "/" + str(self.maxmp)
+        mp_adjusted = ""
+
+        if len(mp_string) < 7:
+            mp_counter = 7 - len(mp_string)
+
+            while mp_counter > 0:
+                mp_adjusted += " "
+                mp_counter -= 1
+
+            mp_adjusted += mp_string
+        else:
+            mp_adjusted = mp_string
+
+        # MP BAR TICKS
+        mp_bar = ""
+        mp_ticks = (self.mp / self.maxmp) * 100 /10
 
         while mp_ticks > 0:
             mp_bar += "█"
             mp_ticks -= 1
-
         while len(mp_bar) < 10:
             mp_bar += " "
 
         print(bcolors.BOLD + self.name + "       " +
-              str(self.hp) + "/" + str(self.maxhp) + " [" +
+              hp_adjusted + " [" +
               bcolors.OKGREEN + hp_bar + bcolors.ENDC + "] " +
-              str(self.mp) + "/" + str(self.maxmp) + " [" +
+              mp_adjusted + " [" +
               bcolors.OKBLUE + mp_bar + bcolors.ENDC + "]")
 
     def generate_damage(self):

@@ -27,9 +27,9 @@ player_inventory = [{"name": potion, "quantity": 15}, {"name": hipotion, "quanti
                     {"name": hielixir, "quantity": 2}, {"name": grenade, "quantity": 5}]
 
 # Create Characters
-player1 = Person("Ironman :", 784, 480, 60, 34, player_magic, player_inventory)
-player2 = Person("The Hulk:", 903, 240, 60, 34, player_magic, player_inventory)
-player3 = Person("Hawkeye :", 403, 140, 60, 34, player_magic, player_inventory)
+player1 = Person("Ironman :", 100, 100, 60, 34, player_magic, player_inventory)
+player2 = Person("The Hulk:", 100, 100, 60, 34, player_magic, player_inventory)
+player3 = Person("Hawkeye :", 100, 100, 60, 34, player_magic, player_inventory)
 enemy = Person("Thanos  :", 1098, 300, 45, 25, [], [])
 
 players = [player1, player2, player3]
