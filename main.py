@@ -60,13 +60,38 @@ while running:
     for player in players:
         print("=====================")
         player.choose_action()
-        choice = input("Choose action: ")
-        index = int(choice) - 1
+
+        while True:
+            choice = input("Choose action: ")
+            try:
+                user_choice = int(choice)
+                index = int(user_choice) - 1
+                if 0 <= index <= 2:
+                    break
+                else:
+                    print("Choice needs to be a valid option.")
+            except ValueError:
+                print("Choice needs to be a number.")
 
         if index == 0:
-            target = player.choose_target(enemies)
+            player.choose_target(enemies)
+
+            while True:
+                target = input("CHOOSE TARGET:")
+                try:
+                    user_target = int(target)
+                    index = int(user_target) - 1
+                    if 0 <= index <= len(enemies) - 1:
+                        target = index
+                        break
+                    else:
+                        print("Choice needs to be a valid option.")
+                except ValueError:
+                    print("Choice needs to be a number.")
+
             dmg = player.generate_damage()
             enemies[target].take_damage(dmg)
+
             print("You attacked " + enemies[target].name.replace(" ", "") + " for " + str(dmg) + " points of damage.")
 
             if enemies[target].get_hp() == 0:
@@ -74,12 +99,22 @@ while running:
                 del enemies[target]
         elif index == 1:
             player.choose_magic()  # display magic options
-            magic_choice = int(input("Choose magic: ")) - 1
 
-            if magic_choice == -1:
-                continue
+            while True:
+                magic_choice = input("CHOOSE MAGIC:")
+                try:
+                    target = int(magic_choice)
+                    index = int(target) - 1
+                    if 0 <= index <= len(player.magic) - 1:
+                        magic_choice = index
+                        break
+                    else:
+                        print("Choice needs to be a valid option.")
+                except ValueError:
+                    print("Choice needs to be a number.")
 
             spell = player.magic[magic_choice]
+            magic_dmg = spell.generate_damage()
             current_mp = player.get_mp()
 
             if spell.cost > current_mp:
@@ -93,7 +128,21 @@ while running:
                 print(bcolors.OKBLUE + "\n" + spell.name + " heals for " + str(magic_dmg) + " HP." + bcolors.ENDC)
             elif spell.type == "black":
                 spell = player.magic[magic_choice]
-                target = player.choose_target(enemies)
+                player.choose_target(enemies)
+
+                while True:
+                    target = input("CHOOSE TARGET:")
+                    try:
+                        user_target = int(target)
+                        index = int(user_target) - 1
+                        if 0 <= index <= len(enemies) - 1:
+                            target = index
+                            break
+                        else:
+                            print("Choice needs to be a valid option.")
+                    except ValueError:
+                        print("Choice needs to be a number.")
+
                 magic_dmg = spell.generate_damage()
                 enemies[target].take_damage(magic_dmg)
                 print(bcolors.OKBLUE + "\n" + spell.name + " deals " + str(magic_dmg) + " points of damage to " +
@@ -105,16 +154,25 @@ while running:
 
         elif index == 2:
             player.choose_item()
-            item_choice = int(input("Choose item: ")) - 1
-            item = player.inventory[item_choice]["name"]
 
-            if item_choice == -1:
-                continue
+            while True:
+                item_choice = input("CHOOSE ITEM:")
+                try:
+                    user_choice = int(item_choice)
+                    index = int(user_choice) - 1
+                    if 0 <= index <= len(player.inventory) - 1:
+                        item_choice = index
+                        break
+                    else:
+                        print("Choice needs to be a valid option.")
+                except ValueError:
+                    print("Choice needs to be a number.")
 
             if player.inventory[item_choice]["quantity"] == 0:
                 print(bcolors.FAIL + "\n" + "None left..." + bcolors.ENDC)
                 continue
 
+            item = player.inventory[item_choice]["name"]
             player.inventory[item_choice]["quantity"] -= 1
 
             if item.type == "potion":
@@ -130,14 +188,28 @@ while running:
                     player.mp = player.maxmp
                 print(bcolors.OKGREEN + "\n" + item.name + " fully restores HP/MP." + bcolors.ENDC)
             elif item.type == "attack":
-                target = player.choose_target(enemies)
+                player.choose_target(enemies)
+
+                while True:
+                    target = input("CHOOSE TARGET:")
+                    try:
+                        user_target = int(target)
+                        index = int(user_target) - 1
+                        if 0 <= index <= len(enemies) - 1:
+                            target = index
+                            break
+                        else:
+                            print("Choice needs to be a valid option.")
+                    except ValueError:
+                        print("Choice needs to be a number.")
+
                 enemies[target].take_damage(item.prop)
                 print(bcolors.FAIL + "\n" + item.name + " deals " + str(item.prop) + " points of damage to " +
                       enemies[target].name.replace(" ", "") + bcolors.ENDC)
 
-            if enemies[target].get_hp() == 0:
-                print(enemies[target].name.replace(" ", "") + " has perished.")
-                del enemies[target]
+                if enemies[target].get_hp() == 0:
+                    print(enemies[target].name.replace(" ", "") + " has perished.")
+                    del enemies[target]
 
     print("-------------------------------------------------")
 

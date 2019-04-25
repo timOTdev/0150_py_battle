@@ -158,8 +158,6 @@ class Person:
             if enemy.get_hp() != 0:
                 print("    " + str(i) + ".", enemy.name)
                 i += 1
-        choice = int(input("CHOOSE TARGET:")) - 1
-        return choice
 
     def choose_magic(self):
         i = 1
@@ -181,7 +179,7 @@ class Person:
         spell = self.magic[magic_choice]
         hp_threshold = (self.hp / self.maxhp) * 100
 
-        if self.mp < spell.cost:
+        if self.mp <= spell.cost:
             return None
         elif hp_threshold <= 40 and spell.type == "white":
             return spell
