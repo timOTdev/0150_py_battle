@@ -28,12 +28,17 @@ player_inventory = [{"name": potion, "quantity": 15}, {"name": hipotion, "quanti
                     {"name": hielixir, "quantity": 2}, {"name": grenade, "quantity": 5}]
 
 # Create Characters
-player1 = Person("Ironman :", 600, 700, 60, 34, player_magic, player_inventory)
-player2 = Person("The Hulk:", 900, 200, 60, 34, player_magic, player_inventory)
-player3 = Person("Hawkeye :", 400, 1, 60, 34, player_magic, player_inventory)
-enemy = Person("Thanos  :", 10000, 800, 45, 25, [], [])
+player1 = Person("Ironman  ", 600, 700, 100, 34, player_magic, player_inventory)
+player2 = Person("The Hulk ", 900, 200, 180, 34, player_magic, player_inventory)
+player3 = Person("Hawkeye  ", 500, 1, 60, 34, player_magic, player_inventory)
+
+enemy1 = Person("Imp      ", 400, 400, 60, 30, [], [])
+enemy2 = Person("Thanos   ", 10000, 800, 250, 200, [], [])
+enemy3 = Person("Imp      ", 400, 400, 60, 30, [], [])
 
 players = [player1, player2, player3]
+enemies = [enemy1, enemy2, enemy3]
+
 running = True
 i = 0
 
@@ -45,7 +50,9 @@ while running:
     for player in players:
         player.get_player_stats()
     print("\n")
-    enemy.get_enemy_stats()
+
+    for enemy in enemies:
+        enemy.get_enemy_stats()
 
     # PLAYER ACTION PHASE
     for player in players:
@@ -55,9 +62,10 @@ while running:
         index = int(choice) - 1
 
         if index == 0:
+            target = player.choose_target(enemies)
             dmg = player.generate_damage()
-            enemy.take_damage(dmg)
-            print("You attacked for", dmg, "points of damage.")
+            enemies[target].take_damage(dmg)
+            print("You attacked" + enemies[target].name + " for " + str(dmg) + " points of damage.")
         elif index == 1:
             player.choose_magic()  # display magic options
             magic_choice = int(input("Choose magic: ")) - 1
@@ -66,8 +74,6 @@ while running:
                 continue
 
             spell = player.magic[magic_choice]
-            magic_dmg = spell.generate_damage()
-
             current_mp = player.get_mp()
 
             if spell.cost > current_mp:
@@ -78,10 +84,14 @@ while running:
 
             if spell.type == "white":
                 player.heal(magic_dmg)
-                print(bcolors.OKBLUE + "\n" + spell.name + " heals for", str(magic_dmg), "HP." + bcolors.ENDC)
+                print(bcolors.OKBLUE + "\n" + spell.name + " heals for " + str(magic_dmg) + " HP." + bcolors.ENDC)
             elif spell.type == "black":
-                enemy.take_damage(magic_dmg)
-                print(bcolors.OKBLUE + "\n" + spell.name + " deals", str(magic_dmg), "points of damage" + bcolors.ENDC)
+                spell = player.magic[magic_choice]
+                target = player.choose_target(enemies)
+                magic_dmg = spell.generate_damage()
+                enemies[target].take_damage(magic_dmg)
+                print(bcolors.OKBLUE + "\n" + spell.name + " deals " + str(magic_dmg) + " points of damage to " +
+                      enemies[target].name + bcolors.ENDC)
         elif index == 2:
             player.choose_item()
             item_choice = int(input("Choose item: ")) - 1
@@ -98,7 +108,7 @@ while running:
 
             if item.type == "potion":
                 player.heal(item.prop)
-                print(bcolors.OKGREEN + "\n" + item.name + " heals for", str(item.prop), "HP" + bcolors.ENDC)
+                print(bcolors.OKGREEN + "\n" + item.name + " heals for " + str(item.prop) + " HP" + bcolors.ENDC)
             elif item.type == "elixir":
                 if item.name == "HiElixir":
                     for i in players:
@@ -109,8 +119,10 @@ while running:
                     player.mp = player.maxmp
                 print(bcolors.OKGREEN + "\n" + item.name + " fully restores HP/MP." + bcolors.ENDC)
             elif item.type == "attack":
-                enemy.take_damage(item.prop)
-                print(bcolors.FAIL + "\n" + item.name + " deals", str(item.prop) + " points of damage." + bcolors.ENDC)
+                target = player.choose_target(enemies)
+                enemies[target].take_damage(item.prop)
+                print(bcolors.FAIL + "\n" + item.name + " deals " + str(item.prop) + " points of damage to " +
+                      enemies[target].name + bcolors.ENDC)
 
     # ENEMY ACTION PHASE
     enemy_choice = 1
@@ -118,7 +130,7 @@ while running:
     target = random.randrange(0, 3)
     enemy_dmg = enemy.generate_damage()
     players[target].take_damage(enemy_dmg)
-    print("Enemy attacks for", enemy_dmg, "points of damage.")
+    print("Enemy attacks for " + str(enemy_dmg) + " points of damage.")
 
     print("-------------------------------------------------")
 
