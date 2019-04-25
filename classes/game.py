@@ -77,7 +77,7 @@ class Person:
         while len(mp_bar) < 10:
             mp_bar += " "
 
-        print("                         _________________________           __________")
+        print("                           _________________________           __________")
         print(bcolors.BOLD + self.name + "       " +
               hp_adjusted + " |" +
               bcolors.OKGREEN + hp_bar + bcolors.ENDC + "| " +
@@ -155,8 +155,9 @@ class Person:
         i = 1
         print("\n" + bcolors.FAIL + bcolors.BOLD + "TARGET:" + bcolors.ENDC)
         for enemy in enemies:
-            print("    " + str(i) + ".", enemy.name)
-            i += 1
+            if enemy.get_hp() != 0:
+                print("    " + str(i) + ".", enemy.name)
+                i += 1
         choice = int(input("CHOOSE TARGET:")) - 1
         return choice
 
