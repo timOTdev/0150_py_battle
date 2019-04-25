@@ -175,3 +175,17 @@ class Person:
             print("    " + str(i) + ".", item["name"].name, ":", item["name"].description,
                   " (x" + str(item["quantity"]) + ")")
             i += 1
+
+    def choose_enemy_spell(self):
+        magic_choice = random.randrange(0, len(self.magic))
+        spell = self.magic[magic_choice]
+        hp_threshold = (self.hp / self.maxhp) * 100
+
+        if self.mp < spell.cost:
+            return None
+        elif hp_threshold <= 40 and spell.type == "white":
+            return spell
+        elif hp_threshold > 40 and spell.type == "black":
+            return spell
+        else:
+            return self.choose_enemy_spell()
